@@ -552,6 +552,7 @@ public sealed unsafe partial class Archetype
             return;
         }
 
+        // TODO: return before rent to avoid memory peak
         // Increase chunk array size
         var newChunks = ArrayPool<Chunk>.Shared.Rent(newCapacity);
         Array.Copy(Chunks, newChunks, ChunkCapacity);
