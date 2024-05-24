@@ -124,7 +124,7 @@ public readonly struct Entity : IEquatable<Entity>, IComparable<Entity>
 ///     The <see cref="Entity"/> struct
 ///     represents a general-purpose object and can be assigned a set of components that act as data.
 /// </summary>
-[DebuggerTypeProxy(typeof(EntityDebugView))]
+//[DebuggerTypeProxy(typeof(EntityDebugView))]
 [SkipLocalsInit]
 public readonly struct Entity : IEquatable<Entity>, IComparable<Entity>
 {
@@ -136,7 +136,7 @@ public readonly struct Entity : IEquatable<Entity>, IComparable<Entity>
     /// <summary>
     /// Its <see cref="World"/> id.
     /// </summary>
-    public readonly int WorldId;
+    //public readonly int WorldId;
 
     /// <summary>
     ///     A null <see cref="Entity"/> used for comparison.
@@ -149,7 +149,7 @@ public readonly struct Entity : IEquatable<Entity>, IComparable<Entity>
     public Entity()
     {
         Id = -1;
-        WorldId = 0;
+        //WorldId = 0;
     }
 
     /// <summary>
@@ -161,7 +161,7 @@ public readonly struct Entity : IEquatable<Entity>, IComparable<Entity>
     internal Entity(int id, int worldId)
     {
         Id = id;
-        WorldId = worldId;
+        //WorldId = worldId;
     }
 
     /// <summary>
@@ -172,7 +172,8 @@ public readonly struct Entity : IEquatable<Entity>, IComparable<Entity>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Equals(Entity other)
     {
-        return Id == other.Id && WorldId == other.WorldId;
+        return Id == other.Id;
+        //&& WorldId == other.WorldId;
     }
 
     /// <summary>
@@ -195,7 +196,9 @@ public readonly struct Entity : IEquatable<Entity>, IComparable<Entity>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public int CompareTo(Entity other)
     {
-        return WorldId != other.WorldId ? WorldId.CompareTo(other.WorldId) : Id.CompareTo(other.Id);
+        return
+            //WorldId != other.WorldId ? WorldId.CompareTo(other.WorldId) :
+            Id.CompareTo(other.Id);
     }
 
     /// <summary>
@@ -208,10 +211,11 @@ public readonly struct Entity : IEquatable<Entity>, IComparable<Entity>
         unchecked
         {
             // Overflow is fine, just wrap
-            var hash = 17;
-            hash = (hash * 23) + Id;
-            hash = (hash * 23) + WorldId;
-            return hash;
+            //var hash = 17;
+            //hash = (hash * 23) + Id;
+            //hash = (hash * 23) + WorldId;
+            //return hash;
+            return Id;
         }
     }
 
@@ -245,7 +249,8 @@ public readonly struct Entity : IEquatable<Entity>, IComparable<Entity>
     /// <returns>Its string.</returns>
     public override string ToString()
     {
-        return $"Entity = {{ {nameof(Id)} = {Id}, {nameof(WorldId)} = {WorldId} }}";
+        return $"Entity = {{ {nameof(Id)} = {Id} }}";
+        //return $"Entity = {{ {nameof(Id)} = {Id}, {nameof(WorldId)} = {WorldId} }}";
     }
 }
 #endif
@@ -311,14 +316,15 @@ public readonly struct EntityReference
     /// </summary>
     /// <returns>True if its alive, otherwhise false.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool IsAlive()
+    public bool IsAlive(World world)
     {
         if (this == Null)
         {
             return false;
         }
 
-        var reference = Entity.Reference();
+        //var reference = Entity.Reference();
+        var reference = world.Reference(Entity);
         return this == reference;
     }
 #endif

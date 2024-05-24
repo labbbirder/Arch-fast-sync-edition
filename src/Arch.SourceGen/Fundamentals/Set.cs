@@ -175,9 +175,8 @@ public static class SetExtensions
         var template =
             $$"""
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static void Set<{{generics}}>(this Entity entity, {{parameters}})
+            public static void Set<{{generics}}>(this World world, Entity entity, {{parameters}})
             {
-                var world = World.Worlds[entity.WorldId];
                 world.Set<{{generics}}>(entity, {{insertParams}});
             }
             """;

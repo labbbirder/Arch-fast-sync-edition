@@ -184,7 +184,7 @@ public sealed partial class WorldTest
 #if PURE_ECS
         That(otherReference.IsAlive(localWorld), Is.EqualTo(false));
 #else
-        That(otherReference.IsAlive(), Is.EqualTo(false));
+        That(otherReference.IsAlive(localWorld), Is.EqualTo(false));
 #endif
 
         // Entity reference null is NOT alive.
@@ -195,8 +195,8 @@ public sealed partial class WorldTest
         That(refs.IsAlive(localWorld), Is.EqualTo(false));
         That(cons.IsAlive(localWorld), Is.EqualTo(false));
 #else
-        That(refs.IsAlive(), Is.EqualTo(false));
-        That(cons.IsAlive(), Is.EqualTo(false));
+        That(refs.IsAlive(localWorld), Is.EqualTo(false));
+        That(cons.IsAlive(localWorld), Is.EqualTo(false));
 #endif
     }
 

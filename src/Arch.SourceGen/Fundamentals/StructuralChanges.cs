@@ -131,9 +131,8 @@ public static class StructuralChangesExtensions
         var template =
             $$"""
               [MethodImpl(MethodImplOptions.AggressiveInlining)]
-              public static void Add<{{generics}}>(this Entity entity, {{parameters}})
+              public static void Add<{{generics}}>(this World world, Entity entity, {{parameters}})
               {
-                  var world = World.Worlds[entity.WorldId];
                   world.Add<{{generics}}>(entity, {{inParameters}});
               }
               """;
@@ -158,9 +157,8 @@ public static class StructuralChangesExtensions
         var template =
             $$"""
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static void Remove<{{generics}}>(this Entity entity)
+            public static void Remove<{{generics}}>(this World world, Entity entity)
             {
-                var world = World.Worlds[entity.WorldId];
                 world.Remove<{{generics}}>(entity);
             }
             """;

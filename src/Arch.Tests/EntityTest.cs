@@ -35,7 +35,7 @@ public sealed partial class EntityTest
         var bitset = new BitSet();
         bitset.SetBits(_group);
 
-        var archetype = _entity.GetArchetype();
+        var archetype = _world.GetArchetype(_entity);
 
         True(bitset.All(archetype.BitSet));
     }
@@ -46,7 +46,7 @@ public sealed partial class EntityTest
     [Test]
     public void IsAlive()
     {
-        True(_entity.IsAlive());
+        True(_world.IsAlive(_entity));
         False(_world.IsAlive(new Entity()));
     }
 
@@ -56,7 +56,7 @@ public sealed partial class EntityTest
     [Test]
     public void Has()
     {
-        True(_entity.Has<Transform>());
+        True(_world.Has<Transform>(_entity));
     }
 
     /// <summary>
@@ -65,7 +65,7 @@ public sealed partial class EntityTest
     [Test]
     public void HasNot()
     {
-        False(_entity.Has<int>());
+        False(_world.Has<int>(_entity));
     }
 
     /// <summary>
@@ -75,8 +75,8 @@ public sealed partial class EntityTest
     public void SetAndGet()
     {
         var transform = new Transform { X = 10, Y = 10 };
-        _entity.Set(transform);
-        ref var tramsformReference = ref _entity.Get<Transform>();
+        _world.Set(_entity,transform);
+        ref var tramsformReference = ref _world.Get<Transform>(_entity );
 
         That(tramsformReference.X, Is.EqualTo(transform.X));
         That(tramsformReference.Y, Is.EqualTo(transform.Y));
@@ -94,7 +94,7 @@ public partial class EntityTest
     [Test]
     public void Has_NonGeneric()
     {
-        True(_entity.Has(typeof(Transform)));
+        True(_world.Has(_entity,typeof(Transform)));
     }
 
 
@@ -104,7 +104,7 @@ public partial class EntityTest
     [Test]
     public void HasNot_NonGeneric()
     {
-        False(_entity.Has(typeof(int)));
+        False(_world.Has(_entity,typeof(int)));
     }
 
 
@@ -115,8 +115,8 @@ public partial class EntityTest
     public void SetAndGet_NonGeneric()
     {
         var transform = (object)new Transform { X = 10, Y = 10 };
-        _entity.Set(transform);
-        var tramsformReference = (Transform)_entity.Get(typeof(Transform));
+        _world.Set(_entity,transform);
+        var tramsformReference = (Transform)_world.Get(_entity,typeof(Transform));
 
         That(tramsformReference.X, Is.EqualTo(10));
         That(tramsformReference.Y, Is.EqualTo(10));
@@ -132,14 +132,14 @@ public partial class EntityTest
         using var world = World.Create();
         var entity = world.Create();
 
-        entity.AddRange(new List<ComponentType>{typeof(Transform),  typeof(Rotation)});
-        That(entity.HasRange(typeof(Transform), typeof(Rotation)));
+        world.AddRange(entity ,new List<ComponentType>{typeof(Transform),  typeof(Rotation)});
+        That(world.HasRange(entity, typeof(Transform), typeof(Rotation)));
 
-        entity.RemoveRange(typeof(Transform), typeof(Rotation));
-        That(!entity.HasRange(typeof(Transform), typeof(Rotation)));
+        world.RemoveRange(entity, typeof(Transform), typeof(Rotation));
+        That(!world.HasRange(entity,typeof(Transform), typeof(Rotation)));
 
-        entity.AddRange(new Transform(), new Rotation());
-        That(entity.HasRange(typeof(Transform), typeof(Rotation)));
+        world.AddRange(entity,new Transform(), new Rotation());
+        That(world.HasRange(entity,typeof(Transform), typeof(Rotation)));
     }
 }
 
@@ -152,8 +152,9 @@ public partial class EntityTest
     [Test]
     public void GeneratedSetAndGet()
     {
-        _entity.Set(new Transform { X = 10, Y = 10 }, new Rotation { X = 10, Y = 10 });
-        var refs = _entity.Get<Transform, Rotation>();
+
+        _world.Set(_entity,new Transform { X = 10, Y = 10 }, new Rotation { X = 10, Y = 10 });
+        var refs = _world.Get<Transform, Rotation>(_entity);
 
         AreEqual(10, refs.t0.X);
         AreEqual(10, refs.t0.Y);
@@ -167,7 +168,7 @@ public partial class EntityTest
     [Test]
     public void GeneratedHas()
     {
-        True(_entity.Has<Transform, Rotation>());
+        True(_world.Has<Transform, Rotation>(_entity));
     }
 }
 #endif

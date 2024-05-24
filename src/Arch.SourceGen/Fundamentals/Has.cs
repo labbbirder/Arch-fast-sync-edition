@@ -138,9 +138,8 @@ public static class HasExtensions
             $$"""
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             [Pure]
-            public static bool Has<{{generics}}>(this Entity entity)
+            public static bool Has<{{generics}}>(this World world, Entity entity)
             {
-                var world = World.Worlds[entity.WorldId];
                 return world.Has<{{generics}}>(entity);
             }
             """;

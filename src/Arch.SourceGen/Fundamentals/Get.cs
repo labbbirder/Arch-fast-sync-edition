@@ -287,9 +287,8 @@ public static class GetExtensions
             $$"""
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             [Pure]
-            public static Components<{{generics}}> Get<{{generics}}>(this Entity entity)
+            public static Components<{{generics}}> Get<{{generics}}>(this World world, Entity entity)
             {
-                var world = World.Worlds[entity.WorldId];
                 return world.Get<{{generics}}>(entity);
             }
             """;
