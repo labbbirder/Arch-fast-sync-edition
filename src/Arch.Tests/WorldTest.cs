@@ -244,6 +244,18 @@ public sealed partial class WorldTest
         That(_world.Capacity, Is.EqualTo(beforeCapacity + 10000));
     }
 
+    [Test]
+    public void Sync()
+    {
+        var dstWorld = World.Create();
+        dstWorld.SetSyncingSourceWorld(_world);
+        True(dstWorld.CountEntities(new()) == 0);
+        True(_world.CountEntities(new()) > 0);
+        dstWorld.Sync();
+        True(dstWorld.CountEntities(new()) > 0);
+
+    }
+
     /// <summary>
     ///     Checks if the <see cref="World"/> trims its content correctly.
     /// </summary>
