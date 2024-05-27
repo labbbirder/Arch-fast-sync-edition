@@ -29,12 +29,14 @@ public partial class World
 {
     private World _syncingWorld = null;
     private Dictionary<Archetype, Archetype> _archetypeLut = new();
+    private HashSet<Archetype> _unvisitedArchetypes = new();
     public void SetSyncingSourceWorld(World another)
     {
         _syncingWorld = another;
         _archetypeLut.Clear();
     }
 
+    // Feature Request: use query to make a partial sync
     public void Sync()
     {
         Debug.Assert(_syncingWorld != null, "Syncing world is null, you must set one by SetSyncingSourceWorld first");
@@ -46,13 +48,21 @@ public partial class World
             RecycledIds.Enqueue(id);
         }
 
+        // sync archetypes
+        _unvisitedArchetypes.Clear();
         var dstArchetypes = Archetypes;
         var srcArchetypes = _syncingWorld.Archetypes;
+        for (var i = 0; i < dstArchetypes.Count; i++)
+        {
+            _unvisitedArchetypes.Add(dstArchetypes[i]);
+        }
+
         for (var i = 0; i < srcArchetypes.Count; i++)
         {
             var srcArche = srcArchetypes[i];
             var dstArche = GetOrCreate(srcArche.Types);
             _archetypeLut[srcArche] = dstArche;
+            _unvisitedArchetypes.Remove(dstArche);
 
             dstArche.Clear();
             dstArche.EnsureEntityCapacity(srcArche.EntityCapacity);
@@ -74,14 +84,20 @@ public partial class World
             //}
         }
 
+        foreach(var archetype in _unvisitedArchetypes)
+        {
+            dstArchetypes.Remove(archetype);
+        }
+
+        // sync EntityInfo
         var dstEntityInfo = EntityInfo;
         var srcEntityInfo = _syncingWorld.EntityInfo;
         SyncJaggedArray(srcEntityInfo.Versions, dstEntityInfo.Versions);
         SyncEntitySlots(srcEntityInfo.EntitySlots, dstEntityInfo.EntitySlots, _archetypeLut);
-        Size = _syncingWorld.Size;
-        QueryCache.Clear();
-    }
 
+        // sync Size
+        Size = _syncingWorld.Size;
+    }
 
     private unsafe void SyncJaggedArray<T>(JaggedArray<T> srcArr, JaggedArray<T> dstArr) where T : unmanaged
     {
@@ -96,8 +112,10 @@ public partial class World
                 var bytesCount = srcBucket.Count * sizeof(T);
                 System.Buffer.MemoryCopy(src, dst, bytesCount, bytesCount);
             }
+
             dstBucket.Count = srcBucket.Count;
         }
+
         for (; i < dstArr.Buckets; i++)
         {
             var dstBucket = dstArr.GetBucket(i);
@@ -147,6 +165,7 @@ public partial class World
                 CloneCloneableArray(srcChunk.Components[k], dstChunk.Components[k], srcChunk.Size);
             }
         }
+
         dstChunk.Size = srcChunk.Size;
     }
 
