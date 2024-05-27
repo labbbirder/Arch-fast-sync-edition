@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arch.LowLevel", "src\Arch.LowLevel\Arch.LowLevel.csproj", "{E57D65A7-53D7-4717-BBC3-1F01A9ACCC0C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -90,6 +92,18 @@ Global
 		{ED70B997-588C-4CD3-88BA-8C7E99A0064B}.Release-Events|Any CPU.Build.0 = Release-Events|Any CPU
 		{ED70B997-588C-4CD3-88BA-8C7E99A0064B}.Release-PureECS|Any CPU.ActiveCfg = Release-PureECS|Any CPU
 		{ED70B997-588C-4CD3-88BA-8C7E99A0064B}.Release-PureECS|Any CPU.Build.0 = Release-PureECS|Any CPU
+		{E57D65A7-53D7-4717-BBC3-1F01A9ACCC0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E57D65A7-53D7-4717-BBC3-1F01A9ACCC0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E57D65A7-53D7-4717-BBC3-1F01A9ACCC0C}.Debug-Events|Any CPU.ActiveCfg = Debug|Any CPU
+		{E57D65A7-53D7-4717-BBC3-1F01A9ACCC0C}.Debug-Events|Any CPU.Build.0 = Debug|Any CPU
+		{E57D65A7-53D7-4717-BBC3-1F01A9ACCC0C}.Debug-PureECS|Any CPU.ActiveCfg = Debug|Any CPU
+		{E57D65A7-53D7-4717-BBC3-1F01A9ACCC0C}.Debug-PureECS|Any CPU.Build.0 = Debug|Any CPU
+		{E57D65A7-53D7-4717-BBC3-1F01A9ACCC0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E57D65A7-53D7-4717-BBC3-1F01A9ACCC0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E57D65A7-53D7-4717-BBC3-1F01A9ACCC0C}.Release-Events|Any CPU.ActiveCfg = Release|Any CPU
+		{E57D65A7-53D7-4717-BBC3-1F01A9ACCC0C}.Release-Events|Any CPU.Build.0 = Release|Any CPU
+		{E57D65A7-53D7-4717-BBC3-1F01A9ACCC0C}.Release-PureECS|Any CPU.ActiveCfg = Release|Any CPU
+		{E57D65A7-53D7-4717-BBC3-1F01A9ACCC0C}.Release-PureECS|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
